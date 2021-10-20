@@ -14,28 +14,56 @@ def init_db():
     # import all modules here that might define models so that
     # they will be registered properly on the metadata.  Otherwise
     # you will have to import them first before calling init_db()
-    from models import Kit, Department, Employee, Role
+    from models import Kit, Task, User, Role, Status
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
 
     # Create the fixtures
+
+    # Kits
     starship = Kit(name='Starship')
     db_session.add(starship)
 
-    engineering = Department(name='Engineering')
-    db_session.add(engineering)
-    hr = Department(name='Human Resources')
-    db_session.add(hr)
-
+    # Status
+    ready = Status(name='Ready')
+    db_session.add(ready)
+    in_progress = Status(name='In Progress')
+    db_session.add(in_progress)
+    complete = Status(name='Complete')
+    db_session.add(complete)
+    blocked = Status(name='Blocked')
+    db_session.add(blocked)
     manager = Role(name='manager')
     db_session.add(manager)
     engineer = Role(name='engineer')
     db_session.add(engineer)
 
-    peter = Employee(name='Peter', department=engineering, role=engineer)
+    peter = User(
+        name_first='Peter', 
+        name_last="Jones", 
+        role=engineer
+    )
     db_session.add(peter)
-    roy = Employee(name='Roy', department=engineering, role=engineer)
+    roy = User(
+        name_first='Roy', 
+        name_last="Rogers", 
+        role=engineer
+    )
     db_session.add(roy)
-    tracy = Employee(name='Tracy', department=hr, role=manager)
+    tracy = User(
+        name_first='Tracy', 
+        name_last="Grogan", 
+        role=manager
+    )
     db_session.add(tracy)
+
+    # Tasks
+    gut_interior = Task(
+        name='Gut Interior', 
+        kit=starship, 
+        style='saga', 
+        created_by=peter
+    )
+    db_session.add(gut_interior)
+
     db_session.commit()

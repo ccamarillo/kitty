@@ -11,15 +11,11 @@ app.debug = True
 
 example_query = """
 {
-  allEmployees(sort: [NAME_ASC, ID_ASC]) {
+  allUsers(sort: [NAME_ASC, ID_ASC]) {
     edges {
       node {
         id
         name
-        department {
-          id
-          name
-        }
         role {
           id
           name

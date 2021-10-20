@@ -1,7 +1,8 @@
 from models import Kit as KitModel
-from models import Department as DepartmentModel
-from models import Employee as EmployeeModel
+from models import Task as TaskModel
+from models import User as UserModel
 from models import Role as RoleModel
+from models import Status as StatusModel
 
 import graphene
 from graphene import relay
@@ -12,34 +13,37 @@ class Kit(SQLAlchemyObjectType):
         model = KitModel
         interfaces = (relay.Node, )
 
-class Department(SQLAlchemyObjectType):
+class Task(SQLAlchemyObjectType):
     class Meta:
-        model = DepartmentModel
+        model = TaskModel
         interfaces = (relay.Node, )
 
-
-class Employee(SQLAlchemyObjectType):
+class Status(SQLAlchemyObjectType):
     class Meta:
-        model = EmployeeModel
+        model = StatusModel
         interfaces = (relay.Node, )
 
+class User(SQLAlchemyObjectType):
+    class Meta:
+        model = UserModel
+        interfaces = (relay.Node, )
 
 class Role(SQLAlchemyObjectType):
     class Meta:
         model = RoleModel
         interfaces = (relay.Node, )
 
-
 class Query(graphene.ObjectType):
     node = relay.Node.Field()
     # Allow only single column sorting
-    all_employees = SQLAlchemyConnectionField(
-        Employee.connection, sort=Employee.sort_argument())
+    all_users = SQLAlchemyConnectionField(
+        User.connection, sort=User.sort_argument())
     # Allows sorting over multiple columns, by default over the primary key
     all_roles = SQLAlchemyConnectionField(Role.connection)
     # Disable sorting over this field
-    all_departments = SQLAlchemyConnectionField(Department.connection, sort=None)
     all_kits = SQLAlchemyConnectionField(Kit.connection)
+    all_tasks = SQLAlchemyConnectionField(Task.connection)
+    all_statuses = SQLAlchemyConnectionField(Status.connection)
 
 
 schema = graphene.Schema(query=Query)

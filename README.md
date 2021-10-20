@@ -2,8 +2,7 @@ Example Flask+SQLAlchemy Project
 ================================
 
 This example project demos integration between Graphene, Flask and SQLAlchemy.
-The project contains two models, one named `Department` and another
-named `Employee`.
+The Project starts with the Kit model.
 
 Getting started
 ---------------
@@ -34,13 +33,13 @@ source env/bin/activate
 Now we can install our dependencies:
 
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 Now the following command will setup the database, and start the server:
 
 ```bash
-./app.py
+python3 ./app.py
 
 ```
 
@@ -48,3 +47,16 @@ Now the following command will setup the database, and start the server:
 Now head on over to
 [http://127.0.0.1:5000/graphql](http://127.0.0.1:5000/graphql)
 and run some queries!
+
+```graphql
+{
+  allKits(sort: [NAME_ASC, ID_ASC]) {
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
+}
+```
